@@ -1,0 +1,13 @@
+# Default twist_mux inputs.
+#
+# Higher priority wins when multiple sources are fresh. Each source has a
+# timeout — an input that hasn't published within `timeout_s` seconds is
+# treated as silent.
+twist_mux:
+  ros__parameters:
+    output_topic: /cmd_vel
+    inputs:
+      joystick:    { topic: /safety/cmd_vel/joystick,  priority: 100, timeout_s: 0.5 }
+      dashboard:   { topic: /safety/cmd_vel/dashboard, priority: 80,  timeout_s: 0.5 }
+      nav:         { topic: /safety/cmd_vel/nav,       priority: 50,  timeout_s: 1.0 }
+      ai:          { topic: /safety/cmd_vel/ai,        priority: 30,  timeout_s: 1.0 }

@@ -1,0 +1,40 @@
+# Dev overlay. Stack with the base compose:
+#
+#   docker compose -f docker/docker-compose.yml -f docker/docker-compose.dev.yml up -d openbrain
+#
+# Adds an interactive `dev` service used by `make dev`.
+
+services:
+  dev:
+    image: openbrain-ros:dev
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev
+    container_name: openbrain-dev
+    network_mode: host
+    ipc: host
+    volumes:
+      - ..:/workspace
+      - openbrain_maps:/maps
+      - openbrain_models:/opt/openbrain/models
+      - openbrain_recordings:/recordings
+    environment:
+      - ROS_DISTRO=humble
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    tty: true
+    stdin_open: true
+    working_dir: /workspace
+    command: ["bash", "-l"]
+
+  openbrain:
+    # In dev, override the production CMD to drop into a shell instead of
+    # auto-launching the bringup. Run `ros2 launch openbrain_bringup ...`
+    # by hand once you've sourced the workspace.
+    command: ["bash", "-l"]
+    tty: true
+    stdin_open: true
+
+volumes:
+  openbrain_maps:
+  openbrain_models:
+  openbrain_recordings:

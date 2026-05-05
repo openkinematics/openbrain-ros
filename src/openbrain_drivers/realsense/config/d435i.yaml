@@ -1,0 +1,20 @@
+# Defaults for a single D435i instance. Override per-camera (front/back) in
+# the bringup launch with serial_no, depth_module.profile, etc.
+/**:
+  ros__parameters:
+    enable_color: true
+    enable_depth: true
+    enable_infra1: false
+    enable_infra2: false
+    enable_gyro: true
+    enable_accel: true
+    unite_imu_method: 2          # 2 = linear_interpolation, gives a clean /imu topic
+    rgb_camera.profile: 640x480x30
+    depth_module.profile: 640x480x30
+    pointcloud.enable: false      # downstream (RTAB-Map / NVBlox) generates pointclouds
+    align_depth.enable: true
+    decimation_filter.enable: true
+    spatial_filter.enable: true
+    temporal_filter.enable: true
+    publish_tf: true
+    tf_publish_rate: 10.0

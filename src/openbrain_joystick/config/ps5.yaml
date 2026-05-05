@@ -1,0 +1,13 @@
+# PlayStation 5 DualSense controller.
+joystick_teleop:
+  ros__parameters:
+    axis_linear_x: 1            # left stick Y
+    axis_linear_y: 0            # left stick X
+    axis_angular_z: 2           # right stick X (DualSense quirk)
+    scale_linear: 1.0
+    scale_angular: 1.5
+    deadman_button: 4           # L1
+    turbo_button: 5             # R1
+    estop_button: 1             # Circle
+    estop_release_button: 2     # Triangle
+    turbo_factor: 2.0

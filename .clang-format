@@ -1,0 +1,23 @@
+---
+# clang-format config for OpenBrain ROS C++ sources.
+BasedOnStyle: Google
+Language: Cpp
+ColumnLimit: 100
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+DerivePointerAlignment: false
+PointerAlignment: Left
+AccessModifierOffset: -2
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+BinPackArguments: false
+BinPackParameters: false
+BreakBeforeBraces: Attach
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+IncludeBlocks: Regroup
+SortIncludes: true
+SpaceAfterCStyleCast: false
+SpacesBeforeTrailingComments: 2
+Standard: c++17

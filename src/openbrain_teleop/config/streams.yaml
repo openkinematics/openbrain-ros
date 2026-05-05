@@ -1,0 +1,9 @@
+# Streams exposed by the video_streamer at :8080.
+# Names must match what the dashboard requests (front, back, ...).
+streams:
+  front:
+    topic: /camera/front/color/image_raw
+    framerate: 15
+  back:
+    topic: /camera/back/color/image_raw
+    framerate: 15

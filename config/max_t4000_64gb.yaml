@@ -1,0 +1,34 @@
+# Kinematics Max — Jetson T4000 64 GB (base SKU, $4,999).
+#
+# This is the default Max compute. Profile mirrors the base in config/max.yaml
+# almost exactly — keeping it explicit so the SKU dispatcher always finds a
+# concrete file even when the operator hasn't customized anything.
+
+box: max
+compute: jetson_t4000_64gb
+
+# Inherits everything from config/max.yaml.
+# Overrides below this line:
+
+perception:
+  yolo:
+    tensorrt_precision: int8          # T4000 runs INT8 happily; FP16 is borderline at 30 fps dual-camera
+  nvblox:
+    enabled: false                    # opt-in; the Mini's GPU can't sustain a 5 m³ TSDF at 10 Hz
+
+modelhub:
+  memory_budget_gb: 32                # 64 GB minus OS + drivers + cache
+  default_format: tensorrt-int8
+
+thermal:
+  throttle_at_celsius: 85
+  shutdown_at_celsius: 95
+
+power:
+  default_mode: maxn                  # maxn | 30w | 15w — sets nvpmodel at boot
+  fan_profile: cool
+
+# Hint surfaced in `openbrain status`:
+notes: |
+  T4000 64 GB. Comfortable for: dual-camera SLAM + Nav2 + INT8 YOLO + the
+  default video streamer. Run NVBlox or FP16 VLAs on the T5000 instead.

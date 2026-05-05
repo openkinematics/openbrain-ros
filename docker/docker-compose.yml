@@ -1,0 +1,50 @@
+# OpenBrain ROS — local + on-robot orchestration.
+#
+# Two services:
+#   * openbrain  — the ROS workspace itself
+#   * dashboard  — optional companion (only spun up if you've cloned the
+#                  openbrain-dashboard repo as a sibling directory). Comment
+#                  out if you don't have it locally.
+
+name: openbrain
+
+services:
+  openbrain:
+    image: ghcr.io/openkinematics/openbrain-ros:latest
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.jetson
+    container_name: openbrain
+    restart: unless-stopped
+    privileged: true                # cameras + USB + GPU passthrough
+    network_mode: host              # rosbridge :9090 + WebRTC :8080
+    runtime: nvidia                 # only honored on Jetson hosts; ignored elsewhere
+    environment:
+      - ROBOT_TYPE=${ROBOT_TYPE:-GENERIC}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - OPENBRAIN_FRONT_SERIAL=${OPENBRAIN_FRONT_SERIAL:-}
+      - OPENBRAIN_BACK_SERIAL=${OPENBRAIN_BACK_SERIAL:-}
+    volumes:
+      - /dev:/dev                   # cameras, IMUs, joysticks
+      - openbrain_maps:/maps
+      - openbrain_models:/opt/openbrain/models
+      - openbrain_recordings:/recordings
+      - /etc/openbrain:/etc/openbrain:ro
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    command: ["ros2 launch openbrain_bringup mini.launch.py"]
+
+  # dashboard:
+  #   image: ghcr.io/openkinematics/openbrain-dashboard:latest
+  #   container_name: openbrain-dashboard
+  #   restart: unless-stopped
+  #   ports: ["3000:3000"]
+  #   environment:
+  #     - NEXT_PUBLIC_ROSBRIDGE_URL=ws://localhost:9090
+  #     - NEXT_PUBLIC_VIDEO_BASE_URL=http://localhost:8080
+  #   depends_on: [openbrain]
+
+volumes:
+  openbrain_maps:
+  openbrain_models:
+  openbrain_recordings:

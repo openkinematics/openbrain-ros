@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>openbrain_demos_profile</name>
+  <version>0.1.0</version>
+  <description>Per-operator profile loader: theme, default speed profile,
+  default camera layout, joystick mapping, language. Persists to
+  /opt/openbrain/profiles/&lt;user&gt;.yaml on the edge box and exposes
+  load/save services that the dashboard's Profile page consumes.</description>
+  <maintainer email="opensource@openkinematics.com">OpenKinematics</maintainer>
+  <license>MIT</license>
+
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>openbrain_msgs</depend>
+
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

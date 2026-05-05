@@ -1,0 +1,12 @@
+# Built-in default profile. Copied to /opt/openbrain/profiles/default.yaml on
+# first launch if no user file exists.
+user: default
+display_name: ""
+theme: dark
+accent_color: "#76b900"
+language: en
+default_speed_profile: normal
+default_camera: front
+pad_layout: xbox
+cockpit_layout: {}
+custom_keybinds: {}

@@ -1,0 +1,26 @@
+name: Question / support
+description: Ask a question about installation, integration, or behavior.
+labels: ["question", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For real-time discussion, the OpenKinematics community Discord is
+        usually faster: https://www.openkinematics.com/community.
+
+        For coordinated debugging, please run `openbrain doctor` first.
+  - type: textarea
+    id: question
+    attributes:
+      label: What are you trying to do?
+    validations:
+      required: true
+  - type: textarea
+    id: tried
+    attributes:
+      label: What have you already tried?
+  - type: textarea
+    id: doctor
+    attributes:
+      label: "`openbrain doctor` output (optional but helpful)"
+      render: shell

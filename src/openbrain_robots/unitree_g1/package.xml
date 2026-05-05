@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>openbrain_robots_unitree_g1</name>
+  <version>0.1.0</version>
+  <description>Adapter scaffold for the Unitree G1 humanoid. Phase 2.</description>
+  <maintainer email="opensource@openkinematics.com">OpenKinematics</maintainer>
+  <license>MIT</license>
+
+  <depend>rclpy</depend>
+  <depend>geometry_msgs</depend>
+  <depend>openbrain_msgs</depend>
+  <depend>openbrain_robots_generic</depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

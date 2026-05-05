@@ -1,0 +1,8 @@
+# Fleet aggregator config. Each entry in ``robots`` is a namespace —
+# the node subscribes to ``/<namespace>/system/health`` and
+# ``/<namespace>/missions/status`` for each. Use empty string for bare
+# topics (single-robot mode).
+openbrain_fleet:
+  ros__parameters:
+    robots: ["r01", "r02", "r03"]
+    heartbeat_timeout_s: 5.0

@@ -1,0 +1,8 @@
+# Load a mission as an ordered list of waypoints in the /map frame.
+# Mirrors openbrain-dashboard's LoadMissionRequest contract.
+openbrain_msgs/Waypoint[] waypoints
+bool loop
+string mission_id     # optional client-supplied identifier; empty string OK
+---
+bool success
+string message

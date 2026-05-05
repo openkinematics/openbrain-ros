@@ -1,0 +1,10 @@
+# Default patrol thresholds. Override at the launch CLI:
+#   ros2 launch openbrain_demos_quadruped_patrol patrol.launch.py \
+#       loop_file:=/etc/openbrain/patrol_loop.json \
+#       low_threshold_pct:=20 resume_threshold_pct:=80
+openbrain_quadruped_patrol:
+  ros__parameters:
+    loop_file: ""
+    low_threshold_pct: 25.0
+    resume_threshold_pct: 75.0
+    critical_threshold_pct: 10.0

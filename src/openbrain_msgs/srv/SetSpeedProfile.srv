@@ -1,0 +1,8 @@
+# Adjust max linear and angular velocity caps applied to /cmd_vel.
+# profile must be one of: "beginner", "normal", "insane".
+string profile
+---
+bool success
+string message
+float32 max_linear_velocity
+float32 max_angular_velocity

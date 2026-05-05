@@ -1,0 +1,29 @@
+# Simulation overlay — runs the dev image with Gazebo and the sim launch
+# composition. Use `make sim`.
+#
+#   docker compose -f docker/docker-compose.yml -f docker/docker-compose.sim.yml up
+
+services:
+  sim:
+    image: openbrain-ros:dev
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev
+    container_name: openbrain-sim
+    network_mode: host
+    ipc: host
+    environment:
+      - ROS_DISTRO=humble
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - QT_X11_NO_MITSHM=1
+      - DISPLAY=${DISPLAY:-:0}
+    volumes:
+      - ..:/workspace
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    working_dir: /workspace
+    command:
+      - bash
+      - -lc
+      - "colcon build --symlink-install --packages-up-to openbrain_simulation && \
+         source install/setup.bash && \
+         ros2 launch openbrain_simulation sim.launch.py"

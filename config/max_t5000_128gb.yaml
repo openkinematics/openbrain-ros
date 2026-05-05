@@ -1,0 +1,39 @@
+# Kinematics Max — Jetson T5000 128 GB (+$1,500 over T4000).
+#
+# Top-of-line Max compute. Twice the memory, ~1.7× the AI throughput of the
+# T4000. Defaults reflect the headroom: FP16 perception, NVBlox on, higher
+# Nav2 control rate, four concurrent video streams.
+
+box: max
+compute: jetson_t5000_128gb
+
+nav:
+  controller_frequency_hz: 30.0       # SoC sustains 30 Hz pure-pursuit comfortably
+
+perception:
+  yolo:
+    enabled: true                     # default-on; the SoC can spare the cycles
+    tensorrt_precision: fp16
+  nvblox:
+    enabled: true                     # 5 m³ TSDF + ESDF at 10 Hz fits the GPU budget
+
+video_streamer:
+  max_concurrent_streams: 4           # front, back, thermal, side feeds simultaneously
+  hardware_encoder: nvenc
+
+modelhub:
+  memory_budget_gb: 96                # 128 GB minus OS + drivers + cache
+  default_format: tensorrt-fp16
+
+thermal:
+  throttle_at_celsius: 90             # T5000 has a wider thermal envelope
+  shutdown_at_celsius: 100
+
+power:
+  default_mode: maxn
+  fan_profile: balanced
+
+notes: |
+  T5000 128 GB. Top-tier. Comfortable for: dual-camera SLAM + Nav2 + FP16
+  YOLO + NVBlox + 7B-parameter VLAs (OpenVLA / GR00T) on-device, all
+  concurrent. The default profile already turns YOLO and NVBlox on.

@@ -1,0 +1,11 @@
+# Default owners — anything without a more specific rule.
+*       @openkinematics/openbrain-maintainers
+
+# Public contracts: extra eyes required before changes land.
+src/openbrain_msgs/             @openkinematics/openbrain-maintainers @openkinematics/dashboard-maintainers
+docs/api.md                     @openkinematics/openbrain-maintainers @openkinematics/dashboard-maintainers
+src/openbrain_teleop/           @openkinematics/openbrain-maintainers @openkinematics/dashboard-maintainers
+
+# Security policy.
+SECURITY.md                     @openkinematics/security
+.github/                        @openkinematics/openbrain-maintainers

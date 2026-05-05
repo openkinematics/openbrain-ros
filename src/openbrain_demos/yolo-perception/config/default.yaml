@@ -1,0 +1,11 @@
+# Defaults for the YOLO detector. Override at the launch CLI:
+#   ros2 launch openbrain_demos_yolo_perception yolo.launch.py model_path:=/opt/openbrain/models/yolo11s.engine
+openbrain_yolo:
+  ros__parameters:
+    model_path: yolo11n.pt          # downloads on first run if missing
+    source: front                   # camera namespace -> /camera/<source>/color/image_raw
+    score_threshold: 0.25
+    imgsz: 640                      # inference resolution (square)
+    half: false                     # FP16 — flip on for T5000 / AGX Orin
+    publish_overlay: true
+    device: ""                      # "" = auto-select; "cpu" / "cuda:0" to force

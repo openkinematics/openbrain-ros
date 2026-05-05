@@ -1,0 +1,69 @@
+# ---- Colcon / ROS 2 workspace ------------------------------------------------
+/build/
+/install/
+/log/
+/.colcon/
+
+# ROS bag / recording formats
+*.bag
+*.bag.active
+*.bag.orig.*
+*.mcap
+
+# Runtime-generated assets at workspace root (container mounts, local exports)
+/maps/
+/recordings/
+
+# ---- Python -----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg
+*.egg-info/
+.eggs/
+dist/
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.tox/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# ---- C++ / CMake (in-tree or auxiliary builds) ------------------------------
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile.cmake
+*.o
+*.a
+*.so
+*.dylib
+
+# ---- IDE / editors -----------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ---- OS ----------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+
+# ---- Env / secrets -----------------------------------------------------------
+.env
+.env.*
+!.env.example
+
+# ---- Docker (local auth / machine-specific) ---------------------------------
+.docker/

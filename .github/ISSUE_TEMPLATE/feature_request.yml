@@ -1,0 +1,43 @@
+name: Feature request
+description: Propose a new capability, demo, or robot adapter.
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Skip the "what" and lead with the "why" — what user is blocked today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: A rough sketch is fine — implementation details get hashed out in the PR.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - New demo
+        - New robot adapter
+        - New sensor driver
+        - API contract change (breaks dashboard)
+        - CLI / tooling
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Are you planning to contribute the implementation?
+      options:
+        - label: Yes, I will open the PR.
+        - label: I can help review.

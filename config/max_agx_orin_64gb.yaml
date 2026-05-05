@@ -1,0 +1,38 @@
+# Kinematics Max — Jetson AGX Orin 64 GB (−$1,199 from T4000).
+#
+# Value SKU: same memory as the T4000 but the previous-gen Ampere GPU
+# (no Blackwell tensor cores). Real-world: AI throughput is ~0.6× of the
+# T4000, so we keep INT8 perception, leave NVBlox off, and tighten the
+# thermal envelope (Orin's smaller passive heatsink throttles earlier).
+
+box: max
+compute: jetson_agx_orin_64gb
+
+nav:
+  controller_frequency_hz: 20.0       # plenty for indoor mobile robots
+
+perception:
+  yolo:
+    tensorrt_precision: int8
+  nvblox:
+    enabled: false                    # too costly for sustained operation
+
+video_streamer:
+  max_concurrent_streams: 2
+
+modelhub:
+  memory_budget_gb: 28                # leave more headroom; older driver overhead
+  default_format: tensorrt-int8
+
+thermal:
+  throttle_at_celsius: 80             # Orin AGX 64 GB ships with a smaller fan
+  shutdown_at_celsius: 92
+
+power:
+  default_mode: maxn
+  fan_profile: cool                   # bias toward lower temps over acoustic comfort
+
+notes: |
+  AGX Orin 64 GB (Ampere). The value pick. Comfortable for: dual-camera
+  SLAM + Nav2 + INT8 YOLO. For NVBlox or FP16 / VLA workloads, pick the
+  T5000 128 GB.

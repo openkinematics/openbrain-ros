@@ -1,0 +1,91 @@
+# Kinematics Max — SKU-agnostic base profile.
+#
+# This file holds the settings that are identical across every Max compute
+# SKU. Pick a SKU-specific overlay for the rest:
+#
+#   config/max_t4000_64gb.yaml      # base SKU ($4,999)
+#   config/max_t5000_128gb.yaml     # +$1,500 — most headroom
+#   config/max_agx_orin_64gb.yaml   # −$1,199 — value SKU
+#
+# Selection order at boot time:
+#   1. $OPENBRAIN_MAX_SKU env var (e.g. "t5000_128gb")
+#   2. `compute:` field in /etc/openbrain/robot.conf
+#   3. fallback: jetson_t4000_64gb (this base profile).
+#
+# The bringup layer (openbrain_bringup/launch/_max_sku.py) merges the
+# SKU file on top of this one — overlays only need to specify keys that
+# differ from the base.
+
+box: max
+compute: jetson_t4000_64gb            # default; SKU files override this
+
+cameras:
+  front:
+    model: D435i
+    serial: ""
+    framerate: 15
+  back:
+    model: D435i
+    serial: ""
+    framerate: 15
+
+payloads:
+  livox_mid360:
+    enabled: false
+    network_interface: eth1
+  hesai_jt128:
+    enabled: false
+    network_interface: eth2
+  xsens_mti:
+    enabled: false
+    serial_device: /dev/ttyUSB_xsens
+    model: MTi-630                    # MTi-630 | MTi-680G
+  flir_boson:
+    enabled: false
+    serial_device: /dev/video2
+  ti_iwr6843:
+    enabled: false
+    cli_device: /dev/ttyACM0
+    data_device: /dev/ttyACM1
+  quectel_rm520n:
+    enabled: false
+    apn: ""
+
+network:
+  rosbridge_port: 9090
+  webrtc_port: 8080
+
+slam:
+  enabled: true
+  database_path: /maps/openbrain.db
+
+nav:
+  enabled: true
+  desired_linear_vel: 0.7             # m/s
+  robot_radius: 0.30                  # meters
+  controller_frequency_hz: 20.0       # SKU overlays bump this up if the SoC can sustain it
+
+perception:
+  yolo:
+    enabled: false
+    tensorrt_precision: int8          # int8 | fp16 — SKUs with more headroom default to fp16
+  nvblox:
+    enabled: false                    # opt-in; T5000 turns this on by default
+
+video_streamer:
+  max_concurrent_streams: 2           # front + back
+  hardware_encoder: nvenc
+
+modelhub:
+  memory_budget_gb: 32                # cap for /opt/openbrain/models residency
+  default_format: tensorrt-int8
+
+thermal:
+  throttle_at_celsius: 85             # publish a /diagnostics WARN above this
+  shutdown_at_celsius: 95
+
+speed_profiles:
+  default: normal
+  beginner: { max_linear: 0.3, max_angular: 0.5 }
+  normal:   { max_linear: 1.0, max_angular: 1.5 }
+  insane:   { max_linear: 2.5, max_angular: 3.0 }

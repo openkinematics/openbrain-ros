@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>openbrain_drivers_hesai</name>
+  <version>0.1.0</version>
+  <description>Wrapper for the Hesai HesaiLidar_SDK_2.0 driver. Targets the
+  Hesai JT128 functional-safety LiDAR. Phase 3 implementation.</description>
+  <maintainer email="opensource@openkinematics.com">OpenKinematics</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

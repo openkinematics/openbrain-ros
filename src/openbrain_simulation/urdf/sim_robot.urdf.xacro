@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!--
+  Minimal differential-drive sim robot. ~ 0.45 m diagonal footprint to match
+  the Mini class. Equipped with a single forward-facing depth camera and a
+  2D lidar so the rest of the OpenBrain stack (SLAM, Nav2) gets the topics
+  it expects.
+-->
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="openbrain_sim_robot">
+
+  <xacro:property name="wheel_radius" value="0.05"/>
+  <xacro:property name="wheel_width"  value="0.04"/>
+  <xacro:property name="wheel_y"      value="0.16"/>
+
+  <link name="base_footprint"/>
+
+  <joint name="base_to_footprint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 ${wheel_radius}"/>
+  </joint>
+
+  <link name="base_link">
+    <inertial><mass value="5.0"/><inertia ixx="0.05" iyy="0.05" izz="0.05" ixy="0" ixz="0" iyz="0"/></inertial>
+    <visual><geometry><box size="0.30 0.30 0.10"/></geometry>
+      <material name="grey"><color rgba="0.3 0.3 0.3 1"/></material></visual>
+    <collision><geometry><box size="0.30 0.30 0.10"/></geometry></collision>
+  </link>
+
+  <xacro:macro name="wheel" params="prefix y">
+    <link name="${prefix}_wheel">
+      <inertial><mass value="0.5"/><inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/></inertial>
+      <visual><geometry><cylinder radius="${wheel_radius}" length="${wheel_width}"/></geometry>
+        <material name="black"><color rgba="0 0 0 1"/></material></visual>
+      <collision><geometry><cylinder radius="${wheel_radius}" length="${wheel_width}"/></geometry></collision>
+    </link>
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <parent link="base_link"/>
+      <child link="${prefix}_wheel"/>
+      <origin xyz="0 ${y} -0.05" rpy="-1.5708 0 0"/>
+      <axis xyz="0 0 1"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:wheel prefix="left"  y="${wheel_y}"/>
+  <xacro:wheel prefix="right" y="-${wheel_y}"/>
+
+  <!-- 2D lidar -->
+  <link name="lidar_link"><inertial><mass value="0.1"/><inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/></inertial>
+    <visual><geometry><cylinder radius="0.04" length="0.04"/></geometry></visual></link>
+  <joint name="lidar_joint" type="fixed"><parent link="base_link"/><child link="lidar_link"/><origin xyz="0.10 0 0.10"/></joint>
+
+  <!-- Depth camera (front) -->
+  <link name="front_link"><visual><geometry><box size="0.04 0.10 0.03"/></geometry></visual></link>
+  <joint name="front_joint" type="fixed"><parent link="base_link"/><child link="front_link"/><origin xyz="0.13 0 0.05"/></joint>
+
+  <gazebo>
+    <plugin filename="ignition-gazebo-diff-drive-system" name="ignition::gazebo::systems::DiffDrive">
+      <left_joint>left_wheel_joint</left_joint>
+      <right_joint>right_wheel_joint</right_joint>
+      <wheel_separation>0.32</wheel_separation>
+      <wheel_radius>${wheel_radius}</wheel_radius>
+      <topic>cmd_vel</topic>
+      <odom_topic>odom</odom_topic>
+      <frame_id>odom</frame_id>
+      <child_frame_id>base_link</child_frame_id>
+      <odom_publish_frequency>30</odom_publish_frequency>
+    </plugin>
+    <plugin filename="ignition-gazebo-joint-state-publisher-system" name="ignition::gazebo::systems::JointStatePublisher">
+      <topic>joint_states</topic>
+    </plugin>
+  </gazebo>
+
+  <gazebo reference="lidar_link">
+    <sensor name="lidar" type="gpu_lidar">
+      <topic>scan</topic>
+      <update_rate>10</update_rate>
+      <ray>
+        <scan><horizontal><samples>360</samples><resolution>1</resolution><min_angle>-3.14</min_angle><max_angle>3.14</max_angle></horizontal></scan>
+        <range><min>0.10</min><max>10.0</max><resolution>0.01</resolution></range>
+      </ray>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="front_link">
+    <sensor name="front_camera" type="rgbd_camera">
+      <topic>camera/front</topic>
+      <update_rate>15</update_rate>
+      <camera>
+        <horizontal_fov>1.05</horizontal_fov>
+        <image><width>640</width><height>480</height></image>
+        <clip><near>0.1</near><far>10.0</far></clip>
+      </camera>
+    </sensor>
+  </gazebo>
+
+</robot>

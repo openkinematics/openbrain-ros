@@ -1,0 +1,51 @@
+# RTAB-Map params tuned for GPS-denied indoor / underground operation.
+#
+# Differences vs. the openbrain_slam default profile:
+#   - Reg/Strategy=2 (Vis+ICP) — visual feature alignment AND geometric
+#     refinement, mandatory when wheel-odom is unreliable or absent.
+#   - subscribe_odom_info=true — RTAB-Map computes its own VIO from the
+#     RGB-D + IMU pair instead of trusting an external /odom topic.
+#   - Mem/STMSize bumped to 30 (default 10): longer short-term memory
+#     so loop-closure detection has more candidates to compare against
+#     when the robot revisits a corridor.
+#   - Vis/MinInliers tightened to 25 (default 20): higher threshold for
+#     accepting a loop closure — fewer false positives in repetitive
+#     environments (long warehouse aisles).
+#   - Mem/UseOdomFeatures=false: don't bias the loop-closure detector
+#     with odometry guesses. Pure visual matching only.
+#   - Reg/Force3DoF=false: drone use case may need 6DoF; the indoor
+#     mobile-base case still works with 3DoF if you set it back at the
+#     CLI (`-p Reg/Force3DoF:=true`).
+
+/**:
+  ros__parameters:
+    frame_id: base_link
+    map_frame_id: map
+    odom_frame_id: odom
+
+    subscribe_depth: true
+    subscribe_rgb: true
+    subscribe_rgbd: false
+    subscribe_imu: true
+    subscribe_odom_info: true
+    approx_sync: true
+    queue_size: 10
+
+    Mem/IncrementalMemory: "true"
+    Mem/STMSize: "30"
+    Mem/UseOdomFeatures: "false"
+
+    RGBD/CreateOccupancyGrid: "true"
+    Reg/Strategy: "2"             # 0=Vis, 1=ICP, 2=Vis+ICP
+    Reg/Force3DoF: "false"
+
+    Vis/MinInliers: "25"
+    Vis/MaxFeatures: "1000"
+
+    Grid/CellSize: "0.05"
+    Grid/RangeMax: "10.0"
+    Grid/RayTracing: "true"
+    Grid/3D: "false"
+    Grid/FromDepth: "true"
+
+    database_path: "/maps/openbrain_vslam.db"

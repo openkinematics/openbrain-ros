@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Community Discord
+    url: https://www.openkinematics.com/community
+    about: Real-time chat with the OpenKinematics community.
+  - name: Security disclosures
+    url: https://github.com/openkinematics/openbrain-ros/security/policy
+    about: Report a vulnerability privately (do NOT open a public issue).
+  - name: Dashboard issues
+    url: https://github.com/openkinematics/openbrain-dashboard/issues
+    about: For UI-only bugs, file in the dashboard repo instead.

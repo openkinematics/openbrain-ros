@@ -1,0 +1,46 @@
+name: lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  python-lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - run: pip install ruff==0.5.5
+      - name: ruff check
+        run: ruff check src/
+
+  cpp-lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install clang-format
+        run: sudo apt-get update && sudo apt-get install -y clang-format-15
+      - name: Check formatting
+        run: |
+          shopt -s nullglob globstar
+          files=(src/**/*.cpp src/**/*.hpp src/**/*.h src/**/*.cc)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "no C++ sources yet — skipping"
+            exit 0
+          fi
+          clang-format-15 --dry-run --Werror "${files[@]}"
+        shell: bash
+
+  shellcheck:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: ShellCheck install.sh
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: "."
+          severity: warning

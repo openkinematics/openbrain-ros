@@ -1,0 +1,84 @@
+name: Bug report
+description: Something is broken or behaving unexpectedly.
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+        Please run `openbrain doctor` first and paste the output below — it
+        captures versions, hardware, and runtime state we'd otherwise have
+        to ask for.
+  - type: input
+    id: version
+    attributes:
+      label: OpenBrain version
+      description: Output of `openbrain --version` (or the git SHA you built from).
+      placeholder: "0.1.0 (sha 1a2b3c4)"
+    validations:
+      required: true
+  - type: dropdown
+    id: hardware
+    attributes:
+      label: Hardware
+      options:
+        - Kinematics Mini
+        - Kinematics Max (T4000)
+        - Kinematics Max (T5000)
+        - Kinematics Max (AGX Orin 64GB)
+        - BYO Jetson — Orin Nano
+        - BYO Jetson — Orin NX
+        - BYO Jetson — AGX Orin
+        - BYO Jetson — AGX Thor
+        - x86 dev laptop (Docker)
+        - Other (describe below)
+    validations:
+      required: true
+  - type: dropdown
+    id: robot
+    attributes:
+      label: Robot
+      options:
+        - GENERIC
+        - UNITREE_GO2
+        - UNITREE_G1
+        - TITA
+        - None / sim
+        - Other (describe below)
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: "`openbrain doctor` output"
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. `ros2 launch openbrain_bringup mini.launch.py`
+        2. Open the dashboard and click "Start mission"
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Paste the relevant ROS / journalctl logs (`journalctl -u openbrain`).
+      render: shell

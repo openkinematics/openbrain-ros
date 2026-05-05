@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<!--
+  Minimal indoor world: a 10×10 m room with a few obstacles.
+  Used by `make sim` to give the full stack something to drive around in.
+-->
+<sdf version="1.9">
+  <world name="openbrain_lab">
+    <plugin filename="ignition-gazebo-physics-system" name="ignition::gazebo::systems::Physics"/>
+    <plugin filename="ignition-gazebo-user-commands-system" name="ignition::gazebo::systems::UserCommands"/>
+    <plugin filename="ignition-gazebo-scene-broadcaster-system" name="ignition::gazebo::systems::SceneBroadcaster"/>
+    <plugin filename="ignition-gazebo-sensors-system" name="ignition::gazebo::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <light name="sun" type="directional">
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.5 0.5 0.5 1</specular>
+      <direction>-0.5 -0.5 -1</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><plane><normal>0 0 1</normal><size>20 20</size></plane></geometry></collision>
+        <visual name="visual"><geometry><plane><normal>0 0 1</normal><size>20 20</size></plane></geometry>
+          <material><ambient>0.2 0.2 0.2 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="wall_n"><static>true</static><pose>0 5 0.5 0 0 0</pose><link name="l">
+      <collision name="c"><geometry><box><size>10 0.1 1</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>10 0.1 1</size></box></geometry></visual></link></model>
+    <model name="wall_s"><static>true</static><pose>0 -5 0.5 0 0 0</pose><link name="l">
+      <collision name="c"><geometry><box><size>10 0.1 1</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>10 0.1 1</size></box></geometry></visual></link></model>
+    <model name="wall_e"><static>true</static><pose>5 0 0.5 0 0 0</pose><link name="l">
+      <collision name="c"><geometry><box><size>0.1 10 1</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>0.1 10 1</size></box></geometry></visual></link></model>
+    <model name="wall_w"><static>true</static><pose>-5 0 0.5 0 0 0</pose><link name="l">
+      <collision name="c"><geometry><box><size>0.1 10 1</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>0.1 10 1</size></box></geometry></visual></link></model>
+
+    <model name="box_a"><pose>1.5 1.0 0.25 0 0 0</pose><static>true</static><link name="l">
+      <collision name="c"><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>0.5 0.5 0.5</size></box></geometry>
+        <material><diffuse>0.3 0.6 1.0 1</diffuse></material></visual></link></model>
+    <model name="box_b"><pose>-2.0 -1.5 0.25 0 0 0.7</pose><static>true</static><link name="l">
+      <collision name="c"><geometry><box><size>0.6 0.6 0.5</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>0.6 0.6 0.5</size></box></geometry>
+        <material><diffuse>1.0 0.4 0.4 1</diffuse></material></visual></link></model>
+
+    <gravity>0 0 -9.81</gravity>
+  </world>
+</sdf>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>openbrain_simulation</name>
+  <version>0.1.0</version>
+  <description>Gazebo (Ignition) bringup with a sim differential-drive
+  mobile robot. Runs the full OpenBrain stack without any physical hardware
+  — useful for dashboard development and CI smoke-tests.</description>
+  <maintainer email="opensource@openkinematics.com">OpenKinematics</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>ros_gz_sim</exec_depend>
+  <exec_depend>ros_gz_bridge</exec_depend>
+  <exec_depend>ros_gz_image</exec_depend>
+  <exec_depend>nav2_bringup</exec_depend>
+  <exec_depend>openbrain_bringup</exec_depend>
+  <exec_depend>openbrain_robots_generic</exec_depend>
+
+  <test_depend>ament_cmake_pytest</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

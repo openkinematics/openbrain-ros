@@ -1,0 +1,13 @@
+# Generic USB gamepad (Logitech F310 in xpad mode and similar).
+joystick_teleop:
+  ros__parameters:
+    axis_linear_x: 1
+    axis_linear_y: 0
+    axis_angular_z: 3
+    scale_linear: 0.7
+    scale_angular: 1.2
+    deadman_button: 5
+    turbo_button: 4
+    estop_button: 1
+    estop_release_button: 3
+    turbo_factor: 1.5

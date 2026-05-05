@@ -1,0 +1,89 @@
+# OpenBrain ROS — Jetson runtime image
+#
+# Base: NVIDIA's JetPack 6.2 image, which already pins the right CUDA, cuDNN,
+# and TensorRT for the Orin Nano / Orin NX / AGX Orin / AGX Thor.
+#
+# Layers, in order of churn (cheapest -> most expensive to rebuild):
+#   1. apt deps (rare churn)
+#   2. ROS 2 Humble + RealSense + Nav2 + RTAB-Map + rosbridge (rare churn)
+#   3. pip deps (medium churn)
+#   4. workspace src/ (frequent churn — last layer)
+#
+# Build: docker buildx build --platform=linux/arm64 -f docker/Dockerfile.jetson -t openbrain-ros:dev .
+
+ARG L4T_TAG=r36.2
+FROM nvcr.io/nvidia/l4t-jetpack:${L4T_TAG} AS base
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8 \
+    ROS_DISTRO=humble \
+    AMENT_PREFIX_PATH=/opt/ros/humble
+
+# ---- 1. base apt -----------------------------------------------------------
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        locales curl gnupg2 lsb-release ca-certificates software-properties-common \
+        build-essential cmake git pkg-config python3-pip python3-venv python3-dev \
+        libssl-dev libusb-1.0-0-dev udev usbutils \
+    && locale-gen en_US.UTF-8 \
+    && rm -rf /var/lib/apt/lists/*
+
+# ---- 2. ROS 2 Humble + sensor + nav stacks --------------------------------
+
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
+        | gpg --dearmor -o /usr/share/keyrings/ros-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" \
+        > /etc/apt/sources.list.d/ros2.list \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        ros-humble-ros-base ros-humble-rmw-cyclonedds-cpp \
+        ros-humble-cv-bridge ros-humble-vision-msgs ros-humble-image-transport \
+        ros-humble-rosbridge-suite \
+        ros-humble-nav2-bringup ros-humble-nav2-bt-navigator ros-humble-nav2-controller \
+        ros-humble-nav2-planner ros-humble-nav2-lifecycle-manager ros-humble-nav2-amcl \
+        ros-humble-rtabmap-ros \
+        ros-humble-tf2-tools ros-humble-tf2-ros \
+        python3-colcon-common-extensions python3-rosdep python3-vcstool \
+    && rosdep init \
+    && rosdep update \
+    && rm -rf /var/lib/apt/lists/*
+
+# Intel RealSense — vendor apt repo on arm64.
+RUN mkdir -p /etc/apt/keyrings \
+    && curl -sSL https://librealsense.intel.com/Debian/librealsense.pgp \
+        | tee /etc/apt/keyrings/librealsense.pgp >/dev/null \
+    && echo "deb [signed-by=/etc/apt/keyrings/librealsense.pgp] https://librealsense.intel.com/Debian/apt-repo $(. /etc/os-release && echo $UBUNTU_CODENAME) main" \
+        > /etc/apt/sources.list.d/librealsense.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        librealsense2 librealsense2-utils librealsense2-dev \
+        ros-humble-realsense2-camera ros-humble-realsense2-camera-msgs \
+    && rm -rf /var/lib/apt/lists/*
+
+# ---- 3. pip deps -----------------------------------------------------------
+
+RUN pip3 install --no-cache-dir \
+        aiohttp==3.9.5 aiortc==1.6.0 av==11.0.0 \
+        psutil==5.9.8 requests==2.31.0 jetson-stats==4.2.7
+
+# ---- 4. workspace ----------------------------------------------------------
+
+WORKDIR /workspace
+COPY . /workspace
+
+RUN . /opt/ros/humble/setup.sh \
+    && rosdep install --from-paths src --ignore-src -y \
+        --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers" \
+    && colcon build --symlink-install --event-handlers console_cohesion+ \
+    && echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc \
+    && echo "source /workspace/install/setup.bash" >> /etc/bash.bashrc
+
+# Maps + recordings persist via mounted volume; create the mount point.
+RUN mkdir -p /maps /recordings /opt/openbrain/models
+
+EXPOSE 9090 8080
+ENV ROBOT_TYPE=GENERIC \
+    RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+
+ENTRYPOINT ["/bin/bash", "-lc"]
+CMD ["ros2 launch openbrain_bringup mini.launch.py"]

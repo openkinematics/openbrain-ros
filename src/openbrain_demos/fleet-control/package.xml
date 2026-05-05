@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>openbrain_demos_fleet_control</name>
+  <version>0.1.0</version>
+  <description>Multi-robot fleet aggregator. Subscribes to /system/health
+  and /missions/status for each robot in the fleet (via namespaced
+  topics over a shared DDS domain), publishes aggregated state on
+  /fleet/* for the dashboard's Fleet page to consume.</description>
+  <maintainer email="opensource@openkinematics.com">OpenKinematics</maintainer>
+  <license>MIT</license>
+
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>openbrain_msgs</depend>
+
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

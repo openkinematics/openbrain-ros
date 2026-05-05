@@ -1,0 +1,13 @@
+# Xbox Series X|S / Xbox One controller (xpad / xboxdrv defaults).
+joystick_teleop:
+  ros__parameters:
+    axis_linear_x: 1            # left stick Y
+    axis_linear_y: 0            # left stick X
+    axis_angular_z: 3           # right stick X
+    scale_linear: 1.0
+    scale_angular: 1.5
+    deadman_button: 4           # LB
+    turbo_button: 5             # RB
+    estop_button: 1             # B
+    estop_release_button: 3     # Y
+    turbo_factor: 2.0

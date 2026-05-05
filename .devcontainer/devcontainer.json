@@ -1,0 +1,44 @@
+{
+  "name": "OpenBrain ROS dev",
+  "build": {
+    "dockerfile": "../docker/Dockerfile.dev",
+    "context": ".."
+  },
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "runArgs": [
+    "--network=host",
+    "--ipc=host"
+  ],
+  "remoteUser": "root",
+  "containerEnv": {
+    "ROS_DISTRO": "humble",
+    "RMW_IMPLEMENTATION": "rmw_cyclonedds_cpp"
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "ros.distro": "humble",
+        "files.associations": {
+          "*.repos": "yaml",
+          "*.urdf": "xml",
+          "*.xacro": "xml"
+        }
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "ms-iot.vscode-ros",
+        "redhat.vscode-yaml",
+        "redhat.vscode-xml",
+        "tamasfe.even-better-toml",
+        "EditorConfig.EditorConfig",
+        "DavidAnson.vscode-markdownlint"
+      ]
+    }
+  },
+  "postCreateCommand": "bash -lc 'rosdep update && pip install -q pre-commit && pre-commit install || true'"
+}

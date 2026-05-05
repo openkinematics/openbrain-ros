@@ -1,0 +1,35 @@
+# Kinematics Mini defaults.
+# Override per-deployment with environment variables (OPENBRAIN_FRONT_SERIAL,
+# OPENBRAIN_BACK_SERIAL) or by editing this file in-place on the box.
+
+box: mini
+compute: jetson_orin_nano_8gb
+
+cameras:
+  front:
+    model: D435i
+    serial: ""           # fill in with the USB serial printed on the camera
+    framerate: 15
+  back:
+    model: D435i
+    serial: ""
+    framerate: 15
+
+network:
+  rosbridge_port: 9090
+  webrtc_port: 8080
+
+slam:
+  enabled: true
+  database_path: /maps/openbrain.db
+
+nav:
+  enabled: true
+  desired_linear_vel: 0.5      # m/s
+  robot_radius: 0.22           # meters
+
+speed_profiles:
+  default: normal
+  beginner: { max_linear: 0.3, max_angular: 0.5 }
+  normal:   { max_linear: 1.0, max_angular: 1.5 }
+  insane:   { max_linear: 2.5, max_angular: 3.0 }

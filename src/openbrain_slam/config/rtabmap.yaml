@@ -1,0 +1,34 @@
+# RTAB-Map defaults tuned for an indoor mobile robot equipped with a single
+# RGB-D camera (front D435i). For multi-camera or LiDAR fusion, override
+# inputs on the command line (subscribe_scan_cloud:=true, etc.).
+/**:
+  ros__parameters:
+    frame_id: base_link
+    map_frame_id: map
+    odom_frame_id: odom
+
+    subscribe_depth: true
+    subscribe_rgb: true
+    subscribe_rgbd: false
+    subscribe_scan: false
+    subscribe_scan_cloud: false
+    subscribe_odom_info: false
+    approx_sync: true
+    queue_size: 10
+
+    # Loop-closure detection
+    Mem/IncrementalMemory: "true"
+    Mem/InitWMWithAllNodes: "false"
+    RGBD/CreateOccupancyGrid: "true"
+    Reg/Strategy: "1"             # 0=Vis, 1=ICP, 2=Vis+ICP
+    Reg/Force3DoF: "true"          # planar mobile robot
+
+    # Map output (consumed by Nav2 + dashboard)
+    Grid/CellSize: "0.05"
+    Grid/RangeMax: "5.0"
+    Grid/RayTracing: "true"
+    Grid/3D: "false"
+    Grid/FromDepth: "true"
+
+    # Persist map to disk; reload on next boot for relocalization.
+    database_path: "/maps/openbrain.db"
