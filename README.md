@@ -120,7 +120,7 @@ ros2 launch openbrain_bringup mini.launch.py
 | [`openbrain_diagnostics`](src/openbrain_diagnostics) | Hardware self-test (cameras, GPU, network, disk, thermal). |
 | [`openbrain_simulation`](src/openbrain_simulation) | Gazebo bringup with a sim mobile robot. |
 | [`openbrain_modelhub`](src/openbrain_modelhub) | SaaS policy deployment client (`modelhub_pull`, `modelhub_list`). |
-| [`openbrain_connector`](src/openbrain_connector) | Optional read-only edge runtime, skill lineage, and hardware-gate status for the Dashboard. |
+| [`openbrain_connector`](src/openbrain_connector) | Optional read-only edge runtime, skill lineage, and hardware-gate status for the Dashboard. See the [Raspberry Pi shadow runbook](docs/raspberry-skill-runtime.md). |
 | [`openbrain_cli`](src/openbrain_cli) | `openbrain` / `ob` console command. |
 
 ### Drivers
