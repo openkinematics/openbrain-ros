@@ -23,12 +23,11 @@ import rclpy
 from action_msgs.msg import GoalStatus
 from geometry_msgs.msg import PoseStamped
 from nav2_msgs.action import NavigateToPose
+from openbrain_msgs.msg import MissionStatus, Waypoint
+from openbrain_msgs.srv import LoadMission
 from rclpy.action import ActionClient
 from rclpy.node import Node
 from std_srvs.srv import Trigger
-
-from openbrain_msgs.msg import MissionStatus, Waypoint
-from openbrain_msgs.srv import LoadMission
 
 STATE_IDLE = MissionStatus.STATE_IDLE
 STATE_LOADED = MissionStatus.STATE_LOADED

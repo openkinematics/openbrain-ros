@@ -314,6 +314,7 @@ def _nullable_nonnegative_number(value: dict[str, Any], key: str) -> float | int
     result = value.get(key)
     if result is None:
         return None
-    if isinstance(result, bool) or not isinstance(result, (float, int)) or result < 0:
+    # Tuple form keeps this library importable on Python 3.9 edge hosts.
+    if isinstance(result, bool) or not isinstance(result, (float, int)) or result < 0:  # noqa: UP038
         raise ConnectorConfigError(f"runtime state number is invalid: {key}")
     return result

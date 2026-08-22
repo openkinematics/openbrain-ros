@@ -4,7 +4,6 @@ import math
 
 from builtin_interfaces.msg import Time
 from openbrain_demos_missions.missions_node import _waypoint_to_pose_stamped
-
 from openbrain_msgs.msg import Waypoint
 
 

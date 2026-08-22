@@ -1,5 +1,6 @@
 """Unit tests for the small Joy helpers."""
 
+import pytest
 from openbrain_joystick.joystick_teleop import _axis, _btn
 from sensor_msgs.msg import Joy
 
@@ -13,8 +14,8 @@ def _msg(axes, buttons):
 
 def test_axis_in_bounds():
     msg = _msg([0.1, 0.2, -0.5], [])
-    assert _axis(msg, 0) == 0.1
-    assert _axis(msg, 2) == -0.5
+    assert _axis(msg, 0) == pytest.approx(0.1)
+    assert _axis(msg, 2) == pytest.approx(-0.5)
 
 
 def test_axis_out_of_bounds_returns_zero():

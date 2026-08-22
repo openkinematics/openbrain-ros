@@ -19,11 +19,10 @@ from dataclasses import dataclass
 
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
+from openbrain_msgs.srv import SetSpeedProfile
 from rclpy.node import Node
 from rclpy.qos import QoSDurabilityPolicy, QoSProfile, QoSReliabilityPolicy
 from std_msgs.msg import String
-
-from openbrain_msgs.srv import SetSpeedProfile
 
 
 @dataclass(frozen=True)

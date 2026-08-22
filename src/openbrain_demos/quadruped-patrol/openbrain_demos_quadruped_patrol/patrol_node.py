@@ -18,6 +18,8 @@ import sys
 from pathlib import Path
 
 import rclpy
+from openbrain_msgs.msg import MissionStatus, Waypoint
+from openbrain_msgs.srv import LoadMission
 from rclpy.node import Node
 from sensor_msgs.msg import BatteryState
 from std_srvs.srv import Trigger
@@ -27,8 +29,6 @@ from openbrain_demos_quadruped_patrol.policy import (
     PatrolPolicy,
     decide,
 )
-from openbrain_msgs.msg import MissionStatus, Waypoint
-from openbrain_msgs.srv import LoadMission
 
 
 class PatrolNode(Node):

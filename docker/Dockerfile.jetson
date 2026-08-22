@@ -1,7 +1,7 @@
 # OpenBrain ROS — Jetson runtime image
 #
-# Base: NVIDIA's JetPack 6.2 image, which already pins the right CUDA, cuDNN,
-# and TensorRT for the Orin Nano / Orin NX / AGX Orin / AGX Thor.
+# Base: NVIDIA's JetPack 6 image, which pins CUDA, cuDNN, and TensorRT for
+# Orin Nano / Orin NX / AGX Orin. Thor uses a separate JetPack 7 image.
 #
 # Layers, in order of churn (cheapest -> most expensive to rebuild):
 #   1. apt deps (rare churn)
@@ -11,7 +11,7 @@
 #
 # Build: docker buildx build --platform=linux/arm64 -f docker/Dockerfile.jetson -t openbrain-ros:dev .
 
-ARG L4T_TAG=r36.2
+ARG L4T_TAG=r36.4.0
 FROM nvcr.io/nvidia/l4t-jetpack:${L4T_TAG} AS base
 
 ENV DEBIAN_FRONTEND=noninteractive \

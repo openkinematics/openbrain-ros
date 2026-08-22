@@ -20,9 +20,8 @@ import time
 
 import psutil
 import rclpy
-from rclpy.node import Node
-
 from openbrain_msgs.msg import PowerRail, SystemHealth, ThermalZone
+from rclpy.node import Node
 
 
 class HealthNode(Node):

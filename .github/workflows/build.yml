@@ -17,7 +17,12 @@ jobs:
       - name: Install build deps
         run: |
           apt-get update
-          apt-get install -y python3-colcon-common-extensions python3-rosdep python3-pip
+          apt-get install -y \
+            python3-colcon-common-extensions \
+            python3-opencv \
+            python3-pip \
+            python3-rosdep \
+            ros-humble-nav2-msgs
           rosdep init || true
           rosdep update
           rosdep install --from-paths src --ignore-src -y \
@@ -36,6 +41,6 @@ jobs:
           source /opt/ros/humble/setup.bash
           source install/setup.bash
           colcon test --event-handlers console_direct+ \
-            --ctest-args -E "linter"   # linters run in lint.yml
+            --ctest-args -LE "linter"   # linters run in lint.yml
           colcon test-result --verbose
         shell: bash

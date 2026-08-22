@@ -24,12 +24,12 @@ from __future__ import annotations
 import sys
 
 import rclpy
+from openbrain_msgs.msg import MissionStatus, SystemHealth
 from rclpy.node import Node
 from rclpy.qos import QoSDurabilityPolicy, QoSProfile, QoSReliabilityPolicy
 from std_msgs.msg import String, UInt32
 
 from openbrain_demos_fleet_control.aggregator import Aggregator
-from openbrain_msgs.msg import MissionStatus, SystemHealth
 
 
 class FleetNode(Node):
