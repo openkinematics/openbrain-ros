@@ -206,7 +206,7 @@ the docs index. Currently planned: `pt`, `es`, `fr`, `zh-CN`, `de`.
 ## Sister repos
 
 - [**openbrain-dashboard**](https://github.com/openkinematics/openbrain-dashboard) — Next.js operator console
-- [**kinematics-mini-hw**](https://github.com/openkinematics/kinematics-mini-hw) — open hardware (CAD, BOM, schematics) for the Mini box
+- [**kinematics-mini-hw**](https://github.com/openkinematics/kinematics-mini-hw) — Kinematics Mini hardware design and validation roadmap; fabrication files are not released yet
 
 The demo catalog lives in this repo at [`src/openbrain_demos/`](src/openbrain_demos) — one folder per demo, with a per-demo README that the marketing site and the dashboard both link into.
 

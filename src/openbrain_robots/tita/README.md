@@ -20,11 +20,11 @@ through it. Track the work in
 
 ## Hardware notes
 
-The Tita connects to the edge box over a custom DB25 connector that
-breaks out ethernet + 24 V power on a single cable. Wiring details and
-schematic live in the
+The proposed Tita integration uses a custom DB25 connection for ethernet and
+power. No validated cable pinout or schematic has been released. Electrical
+documents will be published in
 [`kinematics-mini-hw`](https://github.com/openkinematics/kinematics-mini-hw)
-repo (look for `tita_conn_sch.pdf`).
+only after continuity, polarity, current, and protection checks are complete.
 
 ## What works today
 
@@ -44,7 +44,7 @@ ros2 launch openbrain_robots_tita tita.launch.py
 
 ## What's needed to make this work
 
-**Hardware** — DirectDrive Tita wheel-legged robot (≈ $9k). Custom DB25 connector for ethernet + 24V (schematic in [`kinematics-mini-hw`](https://github.com/openkinematics/kinematics-mini-hw)). Workshop space — Tita can self-balance but is harder to recover from a fall than a wheeled base.
+**Hardware** — DirectDrive Tita wheel-legged robot. A custom edge-compute cable is planned but no validated pinout is public yet; track the hardware work in [`kinematics-mini-hw`](https://github.com/openkinematics/kinematics-mini-hw). Workshop space is required because Tita can self-balance but is harder to recover from a fall than a wheeled base.
 
 **Software dependencies**
 
