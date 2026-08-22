@@ -7,8 +7,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 
 ### Removed
-- `kinematics-lab` sister repo dissolved. The demo catalog now lives
-  exclusively at [`src/openbrain_demos/`](src/openbrain_demos) — one
+- The separate demo catalog was consolidated into
+  [`src/openbrain_demos/`](src/openbrain_demos) — one
   folder per demo with its own README. The marketing site at
   `openkinematics.com/demos` reads metadata directly from
   `openkinematics/lib/demos.ts`, where each entry's `repo` field now
