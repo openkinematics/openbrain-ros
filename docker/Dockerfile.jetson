@@ -85,7 +85,8 @@ RUN . /opt/ros/humble/setup.sh \
     && apt-get install -y --reinstall --no-install-recommends ros-humble-rcutils \
     && test -f /opt/ros/humble/lib/librcutils.so \
     && rm -rf /var/lib/apt/lists/* \
-    && colcon build --symlink-install --event-handlers console_cohesion+ \
+    && colcon build --executor sequential --symlink-install \
+        --event-handlers console_cohesion+ \
     && echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc \
     && echo "source /workspace/install/setup.bash" >> /etc/bash.bashrc
 
