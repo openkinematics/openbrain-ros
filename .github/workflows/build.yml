@@ -22,6 +22,7 @@ jobs:
             python3-opencv \
             python3-pip \
             python3-rosdep \
+            ros-humble-cv-bridge \
             ros-humble-nav2-msgs
           rosdep init || true
           rosdep update
