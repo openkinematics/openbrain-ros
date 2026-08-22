@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --no-cache-dir --break-system-packages \
-        aiohttp==3.9.5 aiortc==1.6.0 av==11.0.0 \
+        aiohttp==3.9.5 aiortc==1.15.0 av==17.1.0 \
         psutil==5.9.8 requests==2.31.0 \
         ruff==0.5.5 pre-commit pyyaml zeroconf
 

@@ -46,6 +46,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   override only what the SoC actually changes (perception precision,
   Nav2 control rate, NVBlox default, thermal envelope, model memory
   budget).
+- Jetson ARM64 images now install RealSense from the signed ROS repository,
+  retry transient rosdep metadata downloads, and use pinned aiortc/PyAV
+  releases that publish CPython 3.10 ARM64 wheels.
 
 ## [0.1.0] — 2026-05-05
 
