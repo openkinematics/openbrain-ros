@@ -77,16 +77,22 @@ COPY . /workspace
 
 # Gazebo/ros_gz is a desktop simulation stack and is not published for this
 # JetPack arm64 base. The Jetson runtime builds the simulation package's
-# resources but intentionally omits those exec-only dependencies.
+# resources but intentionally omits those exec-only dependencies. The current
+# arm64 rcutils binary package exports a relative lookup that CMake intermittently
+# misses under QEMU; verify the library and pin that one export to its ROS prefix.
 RUN . /opt/ros/humble/setup.sh \
     && apt-get update \
     && rosdep install --from-paths src --ignore-src -y \
         --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers ros_gz_sim ros_gz_bridge ros_gz_image" \
     && apt-get install -y --reinstall --no-install-recommends ros-humble-rcutils \
     && test -f /opt/ros/humble/lib/librcutils.so \
+    && sed -i \
+        's|set(_exported_libraries "rcutils")|set(_exported_libraries "/opt/ros/humble/lib/librcutils.so")|' \
+        /opt/ros/humble/share/rcutils/cmake/ament_cmake_export_libraries-extras.cmake \
+    && grep -Fq '/opt/ros/humble/lib/librcutils.so' \
+        /opt/ros/humble/share/rcutils/cmake/ament_cmake_export_libraries-extras.cmake \
     && rm -rf /var/lib/apt/lists/* \
-    && colcon build --executor sequential --symlink-install \
-        --event-handlers console_cohesion+ \
+    && colcon build --symlink-install --event-handlers console_cohesion+ \
     && echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc \
     && echo "source /workspace/install/setup.bash" >> /etc/bash.bashrc
 
