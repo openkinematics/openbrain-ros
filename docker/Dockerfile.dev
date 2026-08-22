@@ -46,5 +46,5 @@ RUN . /opt/ros/humble/setup.sh \
     && echo "[ -f /workspace/install/setup.bash ] && source /workspace/install/setup.bash" >> /etc/bash.bashrc \
     && echo "alias ll='ls -lah'" >> /etc/bash.bashrc
 
-EXPOSE 9090 8080
+EXPOSE 9090 8080 8090
 CMD ["bash", "-l"]

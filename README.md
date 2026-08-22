@@ -120,6 +120,7 @@ ros2 launch openbrain_bringup mini.launch.py
 | [`openbrain_diagnostics`](src/openbrain_diagnostics) | Hardware self-test (cameras, GPU, network, disk, thermal). |
 | [`openbrain_simulation`](src/openbrain_simulation) | Gazebo bringup with a sim mobile robot. |
 | [`openbrain_modelhub`](src/openbrain_modelhub) | SaaS policy deployment client (`modelhub_pull`, `modelhub_list`). |
+| [`openbrain_connector`](src/openbrain_connector) | Optional read-only edge runtime, skill lineage, and hardware-gate status for the Dashboard. |
 | [`openbrain_cli`](src/openbrain_cli) | `openbrain` / `ob` console command. |
 
 ### Drivers
@@ -186,6 +187,7 @@ openbrain logs -f       # tail journalctl + ROS logs together
 - [**Installation**](docs/installation.md) — three install paths, end-to-end
 - [**Architecture**](docs/architecture.md) — data flow + how packages compose
 - [**Public API contract**](docs/api.md) — topics, services, messages, ports
+- [**Edge runtime status**](docs/edge-runtime-status.md) — optional SkillOps lineage, remote inference, and safety monitoring
 - [**Supported robots**](docs/supported-robots.md) — status matrix + how to add one
 - [**Examples**](examples/) — copy-paste mission JSONs, teleop scripts, replay hooks
 - [**Troubleshooting**](docs/troubleshooting.md) — common pitfalls

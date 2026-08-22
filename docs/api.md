@@ -100,6 +100,21 @@ SetSpeedProfile.srv:
 | `:8080/stream/{name}.mjpeg` | `multipart/x-mixed-replace` | MJPEG fallback |
 | `:8080/stream/{name}/snapshot` | `image/jpeg` | Single still (poster) |
 | `:8080/healthz` | `text/plain` | Liveness probe |
+| `:8090/v1/status` | HTTP GET JSON | Optional read-only edge runtime status |
+
+### Edge runtime status
+
+`openbrain_connector` exposes the additive `openbrain.connector.status.v1`
+contract used by the Dashboard robot detail page. It reports the robot-side
+edge and inference hosts, active SkillOps release lineage,
+camera/servo/e-stop readiness, shadow proposal counters, and closed
+capabilities. The contract is independent of the compute board. Version 1 is
+deliberately read-only: it has no calibration, manual-control, or actuation
+endpoint, and all POST requests return `405`.
+
+The service should bind to loopback and be exposed only through a private TLS
+path such as Tailscale Serve. See
+[`openbrain_connector/README.md`](../src/openbrain_connector/README.md).
 
 Default stream names: `front`, `back`. Add more in
 [`openbrain_teleop/config/streams.yaml`](../src/openbrain_teleop/config/streams.yaml).

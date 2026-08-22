@@ -29,6 +29,11 @@ def generate_launch_description() -> LaunchDescription:
     back_serial = LaunchConfiguration("back_serial")
     enable_nav = LaunchConfiguration("enable_nav")
     enable_slam = LaunchConfiguration("enable_slam")
+    enable_edge_status = LaunchConfiguration("enable_edge_status")
+    edge_hardware_profile = LaunchConfiguration("edge_hardware_profile")
+    edge_skill_descriptor = LaunchConfiguration("edge_skill_descriptor")
+    edge_runtime_state = LaunchConfiguration("edge_runtime_state")
+    edge_status_allowed_origin = LaunchConfiguration("edge_status_allowed_origin")
     # `robot_type` is declared below as a launch arg so the user can
     # override it from the CLI; the current process picks the adapter
     # from `detect_robot_type()` (env / robot.conf / fallback) directly.
@@ -99,6 +104,21 @@ def generate_launch_description() -> LaunchDescription:
         ),
     )
 
+    edge_status = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution(
+                [FindPackageShare("openbrain_connector"), "launch", "connector.launch.py"]
+            )
+        ),
+        condition=_if(enable_edge_status),
+        launch_arguments={
+            "hardware_profile": edge_hardware_profile,
+            "skill_descriptor": edge_skill_descriptor,
+            "runtime_state": edge_runtime_state,
+            "allowed_origin": edge_status_allowed_origin,
+        }.items(),
+    )
+
     return LaunchDescription(
         [
             DeclareLaunchArgument(
@@ -114,6 +134,35 @@ def generate_launch_description() -> LaunchDescription:
             ),
             DeclareLaunchArgument("enable_slam", default_value="true"),
             DeclareLaunchArgument("enable_nav", default_value="true"),
+            DeclareLaunchArgument("enable_edge_status", default_value="false"),
+            DeclareLaunchArgument(
+                "edge_hardware_profile",
+                default_value=os.environ.get(
+                    "OPENBRAIN_EDGE_HARDWARE_PROFILE",
+                    "/etc/openbrain/hardware-profile.json",
+                ),
+            ),
+            DeclareLaunchArgument(
+                "edge_skill_descriptor",
+                default_value=os.environ.get(
+                    "OPENBRAIN_EDGE_SKILL_DESCRIPTOR",
+                    "/etc/openbrain/active-skill.json",
+                ),
+            ),
+            DeclareLaunchArgument(
+                "edge_runtime_state",
+                default_value=os.environ.get(
+                    "OPENBRAIN_EDGE_RUNTIME_STATE",
+                    "/run/openbrain/skill-runtime.json",
+                ),
+            ),
+            DeclareLaunchArgument(
+                "edge_status_allowed_origin",
+                default_value=os.environ.get(
+                    "OPENBRAIN_DASHBOARD_ORIGIN",
+                    "http://localhost:3000",
+                ),
+            ),
             LogInfo(
                 msg=[f"[openbrain_bringup] mini box, robot_type={detected}, adapter={adapter_pkg}"]
             ),
@@ -121,6 +170,7 @@ def generate_launch_description() -> LaunchDescription:
             slam,
             nav,
             teleop,
+            edge_status,
             adapter,
         ]
     )

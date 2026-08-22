@@ -14,6 +14,21 @@ plus the robot adapter that matches your `/etc/openbrain/robot.conf`
 (`robot_type=UNITREE_GO2 | UNITREE_G1 | TITA | GENERIC`). Override at the
 CLI with `robot_type:=GENERIC`.
 
+Optional read-only edge runtime monitoring is disabled by default. Enable it
+only after installing a fail-closed hardware profile and active skill
+descriptor:
+
+```bash
+ros2 launch openbrain_bringup mini.launch.py \
+    enable_edge_status:=true \
+    edge_hardware_profile:=/etc/openbrain/hardware-profile.json \
+    edge_skill_descriptor:=/etc/openbrain/active-skill.json \
+    edge_status_allowed_origin:=https://dashboard.openkinematics.com
+```
+
+The same arguments are available on `max.launch.py`. This service is an
+observability endpoint only and does not participate in ROS command routing.
+
 ## Max
 
 ```bash

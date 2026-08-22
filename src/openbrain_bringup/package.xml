@@ -15,6 +15,7 @@
   <exec_depend>openbrain_slam</exec_depend>
   <exec_depend>openbrain_nav</exec_depend>
   <exec_depend>openbrain_teleop</exec_depend>
+  <exec_depend>openbrain_connector</exec_depend>
   <exec_depend>openbrain_robots_generic</exec_depend>
   <exec_depend>openbrain_robots_unitree_go2</exec_depend>
   <exec_depend>openbrain_robots_unitree_g1</exec_depend>

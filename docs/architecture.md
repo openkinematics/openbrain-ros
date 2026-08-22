@@ -9,7 +9,7 @@
 ```
    dashboard / CLI / SDK
             │
-   rosbridge :9090   HTTP video streamer :8080
+   rosbridge :9090   video :8080   read-only connector :8090
             │                       │
    ──────── ROS 2 graph ────────────┴────
    safety mux  ◀──  joystick / dashboard / nav / AI
@@ -23,6 +23,14 @@ Every velocity producer publishes to a **namespaced** topic
 arbitrates by priority + freshness and produces the canonical
 `/cmd_vel`. The robot adapter clamps to the active speed profile and
 forwards to the vendor SDK.
+
+For learned manipulator skills, `openbrain_connector` is a separate
+observability plane. SkillOps exports a lineage-pinned descriptor, the
+robot-side edge host combines it with its fail-closed hardware profile, and the
+Dashboard reads `GET /v1/status`. The inference server receives observations
+and returns action proposals only; it never receives a servo device. Connector
+v1 has no command surface, so adding it cannot bypass the existing ROS safety
+path.
 
 ## Layered package map
 
@@ -237,6 +245,7 @@ payload still launches cleanly.
 ## Where to read next
 
 - [`api.md`](api.md) — the public ROS contract (topics, services, message shapes)
+- [`edge-runtime-status.md`](edge-runtime-status.md) — SkillOps, edge host, inference, and Dashboard integration
 - [`installation.md`](installation.md) — install on Jetson, laptop, or from source
 - [`supported-robots.md`](supported-robots.md) — adapter status matrix
 - [`troubleshooting.md`](troubleshooting.md) — common pitfalls

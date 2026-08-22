@@ -81,7 +81,7 @@ RUN . /opt/ros/humble/setup.sh \
 # Maps + recordings persist via mounted volume; create the mount point.
 RUN mkdir -p /maps /recordings /opt/openbrain/models
 
-EXPOSE 9090 8080
+EXPOSE 9090 8080 8090
 ENV ROBOT_TYPE=GENERIC \
     RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
