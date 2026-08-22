@@ -76,8 +76,10 @@ WORKDIR /workspace
 COPY . /workspace
 
 RUN . /opt/ros/humble/setup.sh \
+    && apt-get update \
     && rosdep install --from-paths src --ignore-src -y \
         --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers" \
+    && rm -rf /var/lib/apt/lists/* \
     && colcon build --symlink-install --event-handlers console_cohesion+ \
     && echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc \
     && echo "source /workspace/install/setup.bash" >> /etc/bash.bashrc
