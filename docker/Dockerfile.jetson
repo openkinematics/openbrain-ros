@@ -75,10 +75,13 @@ RUN pip3 install --no-cache-dir \
 WORKDIR /workspace
 COPY . /workspace
 
+# Gazebo/ros_gz is a desktop simulation stack and is not published for this
+# JetPack arm64 base. The Jetson runtime builds the simulation package's
+# resources but intentionally omits those exec-only dependencies.
 RUN . /opt/ros/humble/setup.sh \
     && apt-get update \
     && rosdep install --from-paths src --ignore-src -y \
-        --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers" \
+        --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers ros_gz_sim ros_gz_bridge ros_gz_image" \
     && rm -rf /var/lib/apt/lists/* \
     && colcon build --symlink-install --event-handlers console_cohesion+ \
     && echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc \
