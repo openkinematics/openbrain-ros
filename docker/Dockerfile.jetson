@@ -82,6 +82,8 @@ RUN . /opt/ros/humble/setup.sh \
     && apt-get update \
     && rosdep install --from-paths src --ignore-src -y \
         --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers ros_gz_sim ros_gz_bridge ros_gz_image" \
+    && apt-get install -y --reinstall --no-install-recommends ros-humble-rcutils \
+    && test -f /opt/ros/humble/lib/librcutils.so \
     && rm -rf /var/lib/apt/lists/* \
     && colcon build --symlink-install --event-handlers console_cohesion+ \
     && echo "source /opt/ros/humble/setup.bash" >> /etc/bash.bashrc \
